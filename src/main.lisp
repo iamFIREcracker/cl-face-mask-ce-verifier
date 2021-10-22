@@ -103,17 +103,17 @@
 
 (defun extract-conformity-assessment-modules (response)
   (let ((results (lquery:$ (initialize response)
-                   "td"
-                   (filter (text-contains "Equipment providing respiratory system protection"))
-                   (next)
-                   (combine (filter (text-contains "EU type-examination"))
-                            (filter (text-contains "Supervised product checks at random intervals"))
-                            (filter (text-contains "Quality assurance of the production process")))
-                   (map-apply #'(lambda (module-b module-c2 module-d)
-                                 (concatenate 'list
-                                              (list (and module-b  'b))
-                                              (list (and module-c2 'c2))
-                                              (list (and module-d  'd))))))))
+                           "td"
+                           (filter (text-contains "Equipment providing respiratory system protection"))
+                           (next)
+                           (combine (filter (text-contains "EU type-examination"))
+                                    (filter (text-contains "Supervised product checks at random intervals"))
+                                    (filter (text-contains "Quality assurance of the production process")))
+                           (map #'(lambda (modules)
+                                    (loop :for m :in modules
+                                          :for n :in '(b c2 d)
+                                          :when (> (length m) 0)
+                                          :collect n))))))
     (when (> (length results) 0)
       (elt results 0))))
 
@@ -156,6 +156,20 @@
 
 (nb-authorized-p (nb-find "2233"))
 
+;; Another one
+(nb-authorized-p "0370")
+(nb-authorized-p "2841")
+
 ;; No PPE regulation authorization
 (nb-find 1282)
 (nb-authorized-p (nb-find 1282))
+
+;; 0099, Although the agency has a small category of masks authorized by PPE
+;; Regulation (EU) 2016/425, the agency can only conduct Module D audits and
+;; has no right to issue Module B type inspection certificates. Therefore, the
+;; CE certificate for protective masks issued by it does not comply with EU
+;; law!
+;; Actually, this is all good as well -- since 28/04/2020 at least
+(nb-authorized-p "0099")
+
+(remove-if-not #'nb-authorized-p (nb-search "370"))
