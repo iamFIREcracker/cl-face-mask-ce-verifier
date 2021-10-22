@@ -154,18 +154,17 @@
 (nb-find 2233)
 (nb-find "2233")
 
-(nb-authorized-p 2233)
 (nb-authorized-p "2233")
 
 (nb-authorized-p (nb-find "2233"))
 
-;; Another one
+;; Another few happy ones
 (nb-authorized-p "0370")
-(nb-authorized-p "2841")
+(nb-authorized-p "2841") ;; this one only has B, and C2 modules, but that's fine
 
 ;; No PPE regulation authorization
-(nb-find 1282)
-(nb-authorized-p (nb-find 1282))
+(nb-find "1282")
+(nb-authorized-p (nb-find "1282"))
 
 ;; 0099, Although the agency has a small category of masks authorized by PPE
 ;; Regulation (EU) 2016/425, the agency can only conduct Module D audits and
