@@ -98,7 +98,7 @@
                    (next)
                    (find "a")
                    (attr :href))))
-    (when (> (length results) 0)
+    (unless (array-empty-p results)
       (make-nando-url (elt results 0)))))
 
 (defun extract-conformity-assessment-modules (response)
@@ -112,9 +112,9 @@
                            (map #'(lambda (modules)
                                     (loop :for m :in modules
                                           :for n :in '(b c2 d)
-                                          :when (> (length m) 0)
+                                          :unless (array-empty-p m)
                                           :collect n))))))
-    (when (> (length results) 0)
+    (unless (array-empty-p results)
       (elt results 0))))
 
 (defun make-nando-url (page)
@@ -143,6 +143,9 @@
     '(#\Space #\Newline #\Backspace #\Tab
       #\Linefeed #\Page #\Return #\Rubout)
     string))
+
+(defun array-empty-p (array)
+  (zerop (length array)))
 
 #; Scratch
 (cffi:load-foreign-library "libssl.dylib")
