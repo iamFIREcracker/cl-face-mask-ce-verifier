@@ -61,6 +61,7 @@
     ;;
     ;; Here, we are trying to pull all the matching notification bodies!
     (slice 3)
+    (filter (complement (text-contains "No data selected")))
     (combine (function parse-nb-id)
              (function parse-nb-name)
              (function parse-nb-details-page)
