@@ -11,7 +11,6 @@
                  #:lass
                  #:hunchentoot
                  #:spinneret
-                 #:swank-tunnel
                  #:uiop
               )
 
