@@ -12,7 +12,7 @@
 (defvar *my-acceptor* nil)
 
 (defun start (&key (web-interface "localhost"))
-  (server web-interface))
+  (serve web-interface))
 
 (defun serve (address)
   (setf *my-acceptor* (make-instance 'hunchentoot:easy-acceptor
