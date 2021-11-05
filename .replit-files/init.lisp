@@ -1,11 +1,20 @@
+;;; Locally cached FASLs
+(let ((cache-dir (merge-pathnames ".common-lisp/" *default-pathname-defaults*)))
+  (asdf:initialize-output-translations
+    `(:output-translations (t (,cache-dir :implementation))
+      :disable-cache
+      :ignore-inherited-configuration)))
+
+
+;;; Quicklisp (installed in the current directory)
 #-quicklisp
-(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
-                                       (user-homedir-pathname))))
+(let ((quicklisp-init (merge-pathnames ".quicklisp/setup.lisp" *default-pathname-defaults*)))
   (if (probe-file quicklisp-init)
       (load quicklisp-init)
       (progn
         (load (merge-pathnames "quicklisp.lisp" *load-truename*))
-        (funcall (find-symbol "INSTALL" (find-package "QUICKLISP-QUICKSTART"))))))
+        (funcall (find-symbol "INSTALL" (find-package "QUICKLISP-QUICKSTART"))
+                 :path (merge-pathnames ".quicklisp/" *default-pathname-defaults*)))))
 
 
 ;;; Nicer prompt
